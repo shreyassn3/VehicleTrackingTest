@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VTSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="VTSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="user_master" EntityType="VTSModel.user_master" />
+    <EntitySet Name="vehicle_details" EntityType="VTSModel.vehicle_details" />
+    <AssociationSet Name="FK__vehicle_deta__id__5FB337D6" Association="VTSModel.FK__vehicle_deta__id__5FB337D6">
+      <End Role="user_master" EntitySet="user_master" />
+      <End Role="vehicle_details" EntitySet="vehicle_details" />
+    </AssociationSet>
+    <FunctionImport Name="GetVehicleDetails" ReturnType="Collection(VTSModel.GetVehicleDetails_Result)">
+      <Parameter Name="Search" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="user_master">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="mobile_number" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="organization" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="email_id" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="photopath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="vehicle_details" Relationship="VTSModel.FK__vehicle_deta__id__5FB337D6" FromRole="user_master" ToRole="vehicle_details" />
+  </EntityType>
+  <EntityType Name="vehicle_details">
+    <Key>
+      <PropertyRef Name="vehicle_number" />
+    </Key>
+    <Property Name="vehicle_number" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="vehicle_type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="chasis_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="engine_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="manufacturing_year" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="load_carrying_capacity" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="make_of_vehicle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="model_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="body_type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="organization" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="device_id" Type="Int32" />
+    <Property Name="id" Type="Int32" />
+    <NavigationProperty Name="user_master" Relationship="VTSModel.FK__vehicle_deta__id__5FB337D6" FromRole="vehicle_details" ToRole="user_master" />
+  </EntityType>
+  <Association Name="FK__vehicle_deta__id__5FB337D6">
+    <End Type="VTSModel.user_master" Role="user_master" Multiplicity="0..1" />
+    <End Type="VTSModel.vehicle_details" Role="vehicle_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_master">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="vehicle_details">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="GetVehicleDetails_Result">
+    <Property Type="String" Name="vehicle_number" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="engine_number" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="chasis_number" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="body_type" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="organization" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="model_number" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="vehicle_type" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="make_of_vehicle" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="manufacturing_year" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="load_carrying_capacity" Nullable="true" MaxLength="8" />
+  </ComplexType>
+</Schema>

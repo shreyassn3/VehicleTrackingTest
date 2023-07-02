@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VTSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="user_master">
+    <Key>
+      <PropertyRef Name="user_id" />
+    </Key>
+    <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" />
+    <Property Name="mobile_number" Type="nvarchar" MaxLength="10" />
+    <Property Name="organization" Type="nvarchar" MaxLength="100" />
+    <Property Name="address" Type="nvarchar" MaxLength="100" />
+    <Property Name="email_id" Type="nvarchar" MaxLength="30" />
+    <Property Name="location" Type="nvarchar" MaxLength="50" />
+    <Property Name="photopath" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="vehicle_details">
+    <Key>
+      <PropertyRef Name="vehicle_number" />
+    </Key>
+    <Property Name="vehicle_number" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="vehicle_type" Type="nvarchar" MaxLength="10" />
+    <Property Name="chasis_number" Type="varchar" MaxLength="20" />
+    <Property Name="engine_number" Type="varchar" MaxLength="20" />
+    <Property Name="manufacturing_year" Type="varchar" MaxLength="4" />
+    <Property Name="load_carrying_capacity" Type="varchar" MaxLength="8" />
+    <Property Name="make_of_vehicle" Type="nvarchar" MaxLength="20" />
+    <Property Name="model_number" Type="varchar" MaxLength="20" />
+    <Property Name="body_type" Type="varchar" MaxLength="10" />
+    <Property Name="organization" Type="nvarchar" MaxLength="100" />
+    <Property Name="device_id" Type="int" />
+    <Property Name="id" Type="int" />
+  </EntityType>
+  <Association Name="FK__vehicle_deta__id__5FB337D6">
+    <End Role="user_master" Type="Self.user_master" Multiplicity="0..1" />
+    <End Role="vehicle_details" Type="Self.vehicle_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user_master">
+        <PropertyRef Name="user_id" />
+      </Principal>
+      <Dependent Role="vehicle_details">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetVehicleDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Search" Type="nvarchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="VTSModelStoreContainer">
+    <EntitySet Name="user_master" EntityType="Self.user_master" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vehicle_details" EntityType="Self.vehicle_details" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__vehicle_deta__id__5FB337D6" Association="Self.FK__vehicle_deta__id__5FB337D6">
+      <End Role="user_master" EntitySet="user_master" />
+      <End Role="vehicle_details" EntitySet="vehicle_details" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

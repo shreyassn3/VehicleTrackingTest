@@ -1,0 +1,90 @@
+Create Database VTS
+Go
+---------------------------------------------------------
+USE [VTS]
+GO
+
+/****** Object:  Table [dbo].[user_master]    Script Date: 13-07-2023 16:11:14 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[user_master](
+	[user_id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](50) NULL,
+	[mobile_number] [nvarchar](10) NULL,
+	[organization] [nvarchar](100) NULL,
+	[address] [nvarchar](100) NULL,
+	[email_id] [nvarchar](30) NULL,
+	[location] [nvarchar](50) NULL,
+	[photopath] [varchar](max) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[user_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+---------------------------------------------------
+USE [VTS]
+GO
+
+/****** Object:  Table [dbo].[vehicle_details]    Script Date: 13-07-2023 16:11:55 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[vehicle_details](
+	[vehicle_number] [nvarchar](20) NOT NULL,
+	[vehicle_type] [nvarchar](10) NULL,
+	[chasis_number] [varchar](20) NULL,
+	[engine_number] [varchar](20) NULL,
+	[manufacturing_year] [varchar](4) NULL,
+	[load_carrying_capacity] [varchar](8) NULL,
+	[make_of_vehicle] [nvarchar](20) NULL,
+	[model_number] [varchar](20) NULL,
+	[body_type] [varchar](10) NULL,
+	[organization] [nvarchar](100) NULL,
+	[device_id] [int] NULL,
+	[id] [int] NULL,
+ CONSTRAINT [PK_vehicle_details] PRIMARY KEY CLUSTERED 
+(
+	[vehicle_number] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[vehicle_details]  WITH CHECK ADD FOREIGN KEY([id])
+REFERENCES [dbo].[user_master] ([user_id])
+GO
+
+
+----------------------------------------------------------------------
+
+
+Create PROCEDURE GetVehicleDetails
+(@Search nvarchar(50)
+)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+Select vehicle_number,engine_number,chasis_number,body_type, organization,model_number,vehicle_type,make_of_vehicle,manufacturing_year,load_carrying_capacity
+ from vehicle_details 
+ where  vehicle_number Like '%'+@Search+'%' or
+ 		engine_number Like '%'+@Search+'%' or
+		chasis_number Like '%'+@Search+'%' or
+		body_type Like '%'+@Search+'%' or
+		organization Like '%'+@Search+'%' or
+		model_number Like '%'+@Search+'%' or
+		vehicle_type Like '%'+@Search+'%' or
+		make_of_vehicle Like '%'+@Search+'%' or
+		manufacturing_year Like '%'+@Search+'%' or
+		load_carrying_capacity Like '%'+@Search+'%'
+END
+GO
